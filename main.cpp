@@ -1,8 +1,9 @@
-#include <QCoreApplication>
+#include "ternary_logic.h"
 
-int main(int argc, char *argv[])
+int main()
 {
-    QCoreApplication a(argc, argv);
+    Tryte t;
+    t.display();
 
-    return a.exec();
+    return 0;
 }
