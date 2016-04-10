@@ -17,7 +17,8 @@ CONFIG += c++11
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    ternary_logic.cpp
 
 HEADERS += \
     ternary_logic.h

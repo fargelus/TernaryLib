@@ -23,76 +23,63 @@ class Trit
 {
     private:
         state st;
-        long pos;
+        short pos;
         static int base;
+        bool overflow;
+        short on_overflow;
 
     public:
-        Trit() : pos(-1), st(UNKNOWN) {}
+        Trit() : st(UNKNOWN), pos(0), overflow(false), on_overflow(0) {}
 
-        Trit(state new_state, long new_pos)
-        {
-            if (new_pos < 0)
-                throw out_of_range();
-            pos = new_pos;
-            st = new_state;
-        }
+        Trit(state, short);
 
-        Trit(long new_pos)
-        {
-            if (new_pos < 0)
-                throw out_of_range();
+        Trit(short);
 
-            pos = new_pos;
-            switch (new_pos % base)
-            {
-                case 0:
-                    st = NEG;
-                    break;
-                case 1:
-                    st = UNKNOWN;
-                    break;
-                case 2:
-                    st = POS;
-                    break;
-               default:
-                    break;
-            }
-        }
+        unsigned get_number();
 
-        unsigned get_number()
-        {
-            return static_cast<unsigned>(st) * pow(base, pos);
-        }
+        state getState() const;
 
-        state getState() { return st; }
+        Trit& operator+ (const Trit&);
+
+        Trit& operator- (Trit&);
+
+        bool is_overflow();
+
+        short get_on_overflow();
 };
-
-int Trit::base = 3;
 
 
 class Tryte
 {
-    private:
+    protected:
         QVector<Trit> sequence;
-        const int size = 6;
+        static const int size = 6;
 
     public:
-        Tryte()
-        {
-            for (int i = 0; i < size; ++i)
-                sequence.push_back(Trit(NEG, i));
-        }
+        Tryte();
 
-        void display()
-        {
-            for (Trit& tr: sequence)
-                std::cout << tr.getState();
-            std::cout << std::endl;
-        }
+        void display();
 
-        Tryte(unsigned long number);    // перевод числа в троичку
+        Tryte(unsigned long);
+
+        const Trit& operator[] (int);
+
 };
 
 
+class Trint : public Tryte
+{
+    public:
+        Trint() : Tryte() {}
+        Trint(unsigned long n) : Tryte(n) {}
+
+        Trint& operator+ (Trint&);
+
+        Trint& operator-(Trint&);
+        Trint& operator* (Trint&);
+        Trint& operator/ (Trint&);
+};
+
 #endif // TERNARY_LOGIC
+
 
