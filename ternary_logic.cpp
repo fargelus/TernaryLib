@@ -67,6 +67,7 @@ Tryte::Tryte()
 
 void Tryte::display()
 {
+    // цикл по коллекции - c++11
     for (Trit& tr: sequence)
         std::cout << tr.getState();
     std::cout << std::endl;
@@ -77,6 +78,8 @@ Tryte::Tryte(unsigned long number) : Tryte()             // перевод чи�
     const int divisor = 3;
     int i = size - 1;
     unsigned long mod;
+
+    // непосредственно перевод
     while (number != 0)
     {
         mod = number % divisor;
@@ -94,7 +97,8 @@ Trit& Tryte::operator[](int index)
 }
 
 
-
+// операция сложения двух троичных целых
+// чисел
 Trint &Trint::operator+(Trint &t)
 {
     for (int i = size - 1; i >= 0; --i)
@@ -103,7 +107,7 @@ Trint &Trint::operator+(Trint &t)
         {
             if (sequence[i + 1].is_overflow())
             {
-                Trit temp_obj(UNKNOWN, 0);
+                Trit temp_obj(UNKNOWN, 0);      // FIX THIS
                 sequence[i] = sequence[i] + t[i] + temp_obj;
             }
             else
