@@ -26,10 +26,9 @@ class Trit
         short pos;
         static int base;
         bool overflow;
-        short on_overflow;
 
     public:
-        Trit() : st(UNKNOWN), pos(0), overflow(false), on_overflow(0) {}
+        Trit() : st(UNKNOWN), pos(0), overflow(false) {}
 
         Trit(state, short);
 
@@ -37,15 +36,13 @@ class Trit
 
         unsigned get_number();
 
-        state getState() const;
+        state getState();
 
-        Trit& operator+ (const Trit&);
+        Trit& operator+ (Trit&);
 
         Trit& operator- (Trit&);
 
         bool is_overflow();
-
-        short get_on_overflow();
 };
 
 
@@ -62,8 +59,7 @@ class Tryte
 
         Tryte(unsigned long);
 
-        const Trit& operator[] (int);
-
+        Trit& operator[] (int);
 };
 
 
@@ -74,10 +70,6 @@ class Trint : public Tryte
         Trint(unsigned long n) : Tryte(n) {}
 
         Trint& operator+ (Trint&);
-
-        Trint& operator-(Trint&);
-        Trint& operator* (Trint&);
-        Trint& operator/ (Trint&);
 };
 
 #endif // TERNARY_LOGIC

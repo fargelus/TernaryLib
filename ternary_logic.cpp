@@ -1,8 +1,10 @@
 #include "ternary_logic.h"
+#include <QDebug>
+#include <cassert>
 
 int Trit::base = 3;
 
-Trit::Trit(state new_state, short new_pos) : overflow(false), on_overflow(0)
+Trit::Trit(state new_state, short new_pos) : overflow(false)
 {
     if (new_pos < 0)
         throw out_of_range();
@@ -37,26 +39,24 @@ unsigned Trit::get_number()
     return static_cast<unsigned>(st) * pow(base, pos);
 }
 
-state Trit::getState() const { return st; }
+state Trit::getState() { return st; }
 
-Trit &Trit::operator+(const Trit &t)
+Trit& Trit::operator+(Trit &t)
 {
-    on_overflow = static_cast<short> (st) + static_cast<short> (t.getState());
-    if (on_overflow >= 3)
+    short sum = static_cast<short> (st) + static_cast<short> (t.getState());
+    if (sum >= 3)
     {
         overflow = true;
-        on_overflow %= 3;
-        st = static_cast<state>(on_overflow);
+        sum %= 3;
     }
-    else
-        on_overflow = 0;
+    st = static_cast<state> (sum);
+
     return *this;
 }
 
 bool Trit::is_overflow()
 { return overflow; }
 
-short Trit::get_on_overflow() { return on_overflow; }
 
 
 Tryte::Tryte()
@@ -86,8 +86,13 @@ Tryte::Tryte(unsigned long number) : Tryte()             // перевод чи�
     }
 }
 
-const Trit &Tryte::operator[](int index)
-{ return sequence.at(index); }
+Trit& Tryte::operator[](int index)
+{
+    if (index < 0 || index >= size)
+        throw out_of_range();
+    return sequence[index];
+}
+
 
 
 Trint &Trint::operator+(Trint &t)
@@ -97,7 +102,10 @@ Trint &Trint::operator+(Trint &t)
         if (i < size - 1)
         {
             if (sequence[i + 1].is_overflow())
-                sequence[i] = sequence[i] + t[i] + (sequence[i + 1].get_on_overflow() % 3);
+            {
+                Trit temp_obj(UNKNOWN, 0);
+                sequence[i] = sequence[i] + t[i] + temp_obj;
+            }
             else
                 sequence[i] = sequence[i] + t[i];
         }

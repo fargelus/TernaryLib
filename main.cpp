@@ -2,10 +2,10 @@
 
 int main()
 {
-    Trint t(1);
+    Trint t(3);
     t.display();
 
-    Trint t1(5);
+    Trint t1(8);
     t1.display();
 
     t = t + t1;
