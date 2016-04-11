@@ -2,13 +2,7 @@
 
 int main()
 {
-    Trint t(3);
-    t.display();
-
-    Trint t1(8);
-    t1.display();
-
-    t = t + t1;
+    Tryte t(14);
     t.display();
 
     return 0;

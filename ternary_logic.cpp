@@ -12,28 +12,6 @@ Trit::Trit(state new_state, short new_pos) : overflow(false)
     st = new_state;
 }
 
-Trit::Trit(short new_pos) : overflow(false)
-{
-    if (new_pos < 0)
-        throw out_of_range();
-
-    pos = new_pos;
-    switch (new_pos % base)
-    {
-    case 0:
-        st = NEG;
-        break;
-    case 1:
-        st = UNKNOWN;
-        break;
-    case 2:
-        st = POS;
-        break;
-    default:
-        break;
-    }
-}
-
 unsigned Trit::get_number()
 {
     return static_cast<unsigned>(st) * pow(base, pos);
@@ -62,7 +40,7 @@ bool Trit::is_overflow()
 Tryte::Tryte()
 {
     for (int i = 0; i < size; ++i)
-        sequence.push_back(Trit(NEG, i));
+        sequence.push_back(Trit(UNKNOWN, i));
 }
 
 void Tryte::display()
@@ -73,20 +51,54 @@ void Tryte::display()
     std::cout << std::endl;
 }
 
-Tryte::Tryte(unsigned long number) : Tryte()             // перевод числа в троичку
+Tryte::Tryte(int number) : Tryte()             // перевод числа в троичку
 {
-    const int divisor = 3;
-    int i = size - 1;
-    unsigned long mod;
-
-    // непосредственно перевод
-    while (number != 0)
+    int degree, tempVal;
+    bool isT = false;
+    do
     {
-        mod = number % divisor;
-        sequence[i] = mod;
-        i--;
-        number /= divisor;
+        degree = findNearestPower(number);
+        if (isT)
+            sequence[size - degree - 1] = Trit(NEG, degree);
+        else
+            sequence[size - degree - 1] = Trit(POS, degree);
+
+        tempVal = pow(3, degree);
+        if (number >= tempVal)
+            number -= tempVal;
+        else
+        {
+            number = tempVal - number;
+            isT = !isT;
+        }
     }
+    while (number != 0);
+}
+
+// находит ближайшую степень тройки
+int Tryte::findNearestPower(int number)
+{
+      int n = 0, tempVal, over, prevSum = 0;
+      while (true)
+      {
+          tempVal = pow(3, n);
+          if (tempVal > abs(number))
+          {
+              over = abs(number) - pow(3, n - 1);
+              int counter = n - 2;
+              while (counter >= 0)
+              {
+                  prevSum += pow(3, counter);
+                  counter--;
+              }
+              if (over <= prevSum)
+                  n--;
+              break;
+          }
+          n++;
+      }
+
+      return n;
 }
 
 Trit& Tryte::operator[](int index)

@@ -24,7 +24,8 @@ struct out_of_range
     out_of_range() {strcpy(description, "Ошибка выход за пределы диапазона");}
 };
 
-enum state {NEG, UNKNOWN, POS};
+// симметричная с-ма счисления
+enum state {NEG = -1, UNKNOWN, POS};
 
 // Trit - это троичный бит, у которого 3 состояния 0, 1, 2
 class Trit
@@ -40,15 +41,11 @@ class Trit
 
         Trit(state, short);
 
-        Trit(short);
-
         unsigned get_number();
 
         state getState();
 
         Trit& operator+ (Trit&);
-
-        Trit& operator- (Trit&);
 
         bool is_overflow();
 };
@@ -65,9 +62,11 @@ class Tryte
 
         void display();
 
-        Tryte(unsigned long);
+        Tryte(int);
 
         Trit& operator[] (int);
+
+        int findNearestPower(int);
 };
 
 // Trint - троичное целое число(беззнаковое) в диапазоне от 0 до 728
