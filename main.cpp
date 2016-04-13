@@ -2,7 +2,7 @@
 
 int main()
 {
-    Tryte t(14);
+    Tryte t(364);
     t.display();
 
     return 0;

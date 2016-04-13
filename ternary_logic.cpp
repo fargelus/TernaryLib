@@ -55,20 +55,23 @@ Tryte::Tryte(int number) : Tryte()             // перевод числа в �
 {
     int degree, tempVal;
     bool isT = false;
+    if (number < 0)
+        isT = true;
     do
     {
         degree = findNearestPower(number);
+
         if (isT)
             sequence[size - degree - 1] = Trit(NEG, degree);
         else
             sequence[size - degree - 1] = Trit(POS, degree);
 
         tempVal = pow(3, degree);
-        if (number >= tempVal)
-            number -= tempVal;
+        if (abs(number) >= abs(tempVal))
+            number = abs(number) - abs(tempVal);
         else
         {
-            number = tempVal - number;
+            number = abs(tempVal) - abs(number);
             isT = !isT;
         }
     }
@@ -100,6 +103,7 @@ int Tryte::findNearestPower(int number)
 
       return n;
 }
+
 
 Trit& Tryte::operator[](int index)
 {
