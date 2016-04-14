@@ -1,21 +1,10 @@
-/*
- * библиотека для работы с троичной логикой
- * дальше подробное описание всех классов
- *
- *
- *
- * Trit - это троичный бит, у которого 3 состояния 0, 1, 2 - система несимметричная(пока)
- * Tryte - троичный байт, состоящий из 6 тритов
- * Trint - троичное целое число(беззнаковое) в диапазоне от 0 до 728
- */
-
-#ifndef TERNARY_LOGIC
-#define TERNARY_LOGIC
+#ifndef SIMPLE
+#define SIMPLE
 
 #include <cstring>
 #include <cmath>
-#include <QVector>
 #include <iostream>
+#include <QVector>
 
 // простейший класс исключений
 struct outOfRange
@@ -79,25 +68,6 @@ class Tryte
         int findNearestPower(int);
 };
 
-// Troolean - троичный boolean
-class Troolean : public Tryte
-{
-    public:
-        Troolean() : Tryte() {}
-        Troolean(int);
-};
 
-// Trint - троичное целое число(беззнаковое) в диапазоне от 0 до 728
-class Trint : public Tryte
-{
-    public:
-        Trint() : Tryte() {}
-        Trint(int n) : Tryte(n) {}
-
-        Trint& operator+(Trint&);
-        Trint& operator- (Trint&);
-};
-
-#endif // TERNARY_LOGIC
-
+#endif // SIMPLE
 

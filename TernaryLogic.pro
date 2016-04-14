@@ -18,7 +18,9 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    ternary_logic.cpp
+    simple.cpp \
+    datatypes.cpp
 
 HEADERS += \
-    ternary_logic.h
+    simple.h \
+    datatypes.h
