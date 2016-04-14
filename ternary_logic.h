@@ -18,16 +18,25 @@
 #include <iostream>
 
 // простейший класс исключений
-struct out_of_range
+struct outOfRange
 {
-    char* description;
-    out_of_range() {strcpy(description, "Ошибка выход за пределы диапазона");}
+    std::string description;
+    outOfRange() {description = "Ошибка выход за пределы диапазона";}
+    outOfRange(const std::string st) : outOfRange()
+    {
+        if (!st.empty())
+            description = st;
+    }
+    void displayEx()
+    {
+        std::cout << description << std::endl;
+    }
 };
 
 // симметричная с-ма счисления
 enum state {NEG = -1, UNKNOWN, POS};
 
-// Trit - это троичный бит, у которого 3 состояния 0, 1, 2
+// Trit - это троичный бит, у которого 3 состояния -1, 0, 1
 class Trit
 {
     private:
@@ -45,7 +54,8 @@ class Trit
 
         state getState();
 
-        Trit& operator+ (Trit&);
+        Trit& operator+(Trit&);
+        Trit& operator- (Trit&);
 
         bool is_overflow();
 };
@@ -69,14 +79,23 @@ class Tryte
         int findNearestPower(int);
 };
 
+// Troolean - троичный boolean
+class Troolean : public Tryte
+{
+    public:
+        Troolean() : Tryte() {}
+        Troolean(int);
+};
+
 // Trint - троичное целое число(беззнаковое) в диапазоне от 0 до 728
 class Trint : public Tryte
 {
     public:
         Trint() : Tryte() {}
-        Trint(unsigned long n) : Tryte(n) {}
+        Trint(int n) : Tryte(n) {}
 
-        Trint& operator+ (Trint&);
+        Trint& operator+(Trint&);
+        Trint& operator- (Trint&);
 };
 
 #endif // TERNARY_LOGIC

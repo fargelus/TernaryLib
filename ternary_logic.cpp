@@ -7,7 +7,7 @@ int Trit::base = 3;
 Trit::Trit(state new_state, short new_pos) : overflow(false)
 {
     if (new_pos < 0)
-        throw out_of_range();
+        throw outOfRange();
     pos = new_pos;
     st = new_state;
 }
@@ -21,13 +21,26 @@ state Trit::getState() { return st; }
 
 Trit& Trit::operator+(Trit &t)
 {
-    short sum = static_cast<short> (st) + static_cast<short> (t.getState());
-    if (sum >= 3)
+    int sum = static_cast<int> (st) + static_cast<int> (t.getState());
+    if (sum == 2 || sum == -2)
     {
         overflow = true;
-        sum %= 3;
+        sum = -1;
     }
     st = static_cast<state> (sum);
+
+    return *this;
+}
+
+Trit &Trit::operator-(Trit & t)
+{
+    int diff = static_cast<int> (st) - static_cast<int> (t.getState());
+    if (diff == 2 || diff == -2)
+    {
+        overflow = true;
+        diff = 1;
+    }
+    st = static_cast<state> (diff);
 
     return *this;
 }
@@ -53,6 +66,8 @@ void Tryte::display()
 
 Tryte::Tryte(int number) : Tryte()             // перевод числа в троичку
 {
+    if (number < -364 || number > 364)
+        throw outOfRange("Tryte must be between -364 and 364");
     int degree, tempVal;
     bool isT = false;
     if (number < 0)
@@ -108,7 +123,7 @@ int Tryte::findNearestPower(int number)
 Trit& Tryte::operator[](int index)
 {
     if (index < 0 || index >= size)
-        throw out_of_range();
+        throw outOfRange();
     return sequence[index];
 }
 
@@ -123,7 +138,7 @@ Trint &Trint::operator+(Trint &t)
         {
             if (sequence[i + 1].is_overflow())
             {
-                Trit temp_obj(UNKNOWN, 0);      // FIX THIS
+                Trit temp_obj(POS, 0);
                 sequence[i] = sequence[i] + t[i] + temp_obj;
             }
             else
@@ -134,4 +149,38 @@ Trint &Trint::operator+(Trint &t)
     }
 
     return *this;
+}
+
+Trint &Trint::operator-(Trint & t)
+{
+    for (int i = size - 1; i >= 0; --i)
+    {
+        if (i < size - 1)
+        {
+            if (sequence[i + 1].is_overflow())
+            {
+                Trit temp_obj(POS, 0);
+                sequence[i] = sequence[i] - t[i] - temp_obj;
+            }
+            else
+                sequence[i] = sequence[i] - t[i];
+        }
+        else
+            sequence[i] = sequence[i] - t[i];
+    }
+
+    return *this;
+}
+
+
+Troolean::Troolean(int val)
+{
+    if (val < -364 || val > 364)
+        throw outOfRange("Troolean must be between -364 and 364");
+    if (val > 0)
+        sequence.fill(Trit(POS, 0));
+    else if (val == 0)
+        sequence.fill(Trit(UNKNOWN, 0));
+    else
+        sequence.fill(Trit(NEG, 0));
 }

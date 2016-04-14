@@ -2,8 +2,15 @@
 
 int main()
 {
-    Tryte t(364);
-    t.display();
+    try
+    {
+        Troolean t(-370);
+        t.display();
+    }
+    catch (outOfRange& e)
+    {
+        e.displayEx();
+    }
 
     return 0;
 }
