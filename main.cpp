@@ -1,17 +1,31 @@
 #include "datatypes.h"
+#include <iostream>
+
+using std::cout;
+using std::endl;
 
 int main()
 {
     try
     {
-        Troolean t(20);
+        Troolean t(0);
+
+//        Trint tr(140);
+//        Trint tr1 = 12;
+
+//        tr = tr - tr1;
+//        tr.display();
+
         t.display();
+        t = ~t;
+        t.display();
+        cout << t << endl;
 
-        Trint tr(140);
-        Trint tr1 = 12;
+        Troolean testLogic = 1;
+        Troolean rightOps = 0;
 
-        tr = tr - tr1;
-        tr.display();
+        testLogic = testLogic && rightOps;
+        cout << testLogic << endl;
     }
     catch (outOfRange& e)
     {

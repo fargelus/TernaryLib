@@ -9,6 +9,10 @@ class Troolean : public Tryte
     public:
         Troolean() : Tryte() {}
         Troolean(int);
+        Troolean operator~();
+        friend std::ostream& operator<<(std::ostream&, Troolean&);
+        Troolean operator&&(Troolean&);
+        Troolean operator || (Troolean&);
 };
 
 // Trint - троичное целое число(беззнаковое) в диапазоне от 0 до 728

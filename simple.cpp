@@ -47,7 +47,6 @@ bool Trit::is_overflow()
 { return overflow; }
 
 
-
 Tryte::Tryte()
 {
     for (int i = 0; i < size; ++i)
