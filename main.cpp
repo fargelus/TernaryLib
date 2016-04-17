@@ -8,24 +8,24 @@ int main()
 {
     try
     {
-        Troolean t(0);
+//        Troolean t(0);
 
-//        Trint tr(140);
-//        Trint tr1 = 12;
+        Trint tr(3);
+        Trint tr1 = 4;
 
-//        tr = tr - tr1;
-//        tr.display();
+        tr = tr + tr1;
+        tr.display();
 
-        t.display();
-        t = ~t;
-        t.display();
-        cout << t << endl;
+//        t.display();
+//        t = ~t;
+//        t.display();
+//        cout << t << endl;
 
-        Troolean testLogic = 1;
-        Troolean rightOps = 0;
+//        Troolean testLogic = 1;
+//        Troolean rightOps = 0;
 
-        testLogic = testLogic && rightOps;
-        cout << testLogic << endl;
+//        testLogic = testLogic && rightOps;
+//        cout << testLogic << endl;
     }
     catch (outOfRange& e)
     {

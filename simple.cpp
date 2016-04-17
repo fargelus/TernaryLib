@@ -1,8 +1,9 @@
 #include "simple.h"
+#include <QDebug>
 
 int Trit::base = 3;
 
-Trit::Trit(state new_state, short new_pos) : overflow(false)
+Trit::Trit(state new_state, short new_pos) : onOverflow(UNKNOWN)
 {
     if (new_pos < 0)
         throw outOfRange();
@@ -10,9 +11,9 @@ Trit::Trit(state new_state, short new_pos) : overflow(false)
     st = new_state;
 }
 
-unsigned Trit::get_number()
+int Trit::get_number()
 {
-    return static_cast<unsigned>(st) * pow(base, pos);
+    return static_cast<int>(st) * pow(base, pos);
 }
 
 state Trit::getState() { return st; }
@@ -22,8 +23,16 @@ Trit& Trit::operator+(Trit &t)
     int sum = static_cast<int> (st) + static_cast<int> (t.getState());
     if (sum == 2 || sum == -2)
     {
-        overflow = true;
-        sum = -1;
+        if (sum == 2)
+        {
+            onOverflow = POS;
+            sum = -1;
+        }
+        else
+        {
+            onOverflow = NEG;
+            sum = 1;
+        }
     }
     st = static_cast<state> (sum);
 
@@ -35,17 +44,29 @@ Trit &Trit::operator-(Trit & t)
     int diff = static_cast<int> (st) - static_cast<int> (t.getState());
     if (diff == 2 || diff == -2)
     {
-        overflow = true;
-        diff = 1;
+        if (diff == -2)
+        {
+            onOverflow = NEG;
+            diff = 1;
+        }
+        else
+        {
+            onOverflow = POS;
+            diff = -1;
+        }
     }
     st = static_cast<state> (diff);
 
     return *this;
 }
 
-bool Trit::is_overflow()
-{ return overflow; }
+state Trit::getOverflow()
+{
+    return onOverflow;
+}
 
+void Trit::setOverflow(state newSt)
+{ onOverflow = newSt; }
 
 Tryte::Tryte()
 {
@@ -65,6 +86,9 @@ Tryte::Tryte(int number) : Tryte()             // перевод числа в �
 {
     if (number < -364 || number > 364)
         throw outOfRange("Tryte must be between -364 and 364");
+    if (number == 0)
+        return;
+
     int degree, tempVal;
     bool isT = false;
     if (number < 0)
@@ -114,6 +138,14 @@ int Tryte::findNearestPower(int number)
       }
 
       return n;
+}
+
+int Tryte::convertNumber()
+{
+    int sum = 0;
+    for (int i = size - 1; i >= 0; --i)
+        sum += sequence[i].get_number();
+    return sum;
 }
 
 

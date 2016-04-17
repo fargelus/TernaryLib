@@ -32,21 +32,23 @@ class Trit
         state st;
         short pos;          // позиция числа
         static int base;  // осн-е системы счисления(3)
-        bool overflow;  // проверка на переполняемость
+        state onOverflow;
 
     public:
-        Trit() : st(UNKNOWN), pos(0), overflow(false) {}
+        Trit() : st(UNKNOWN), pos(0), onOverflow(UNKNOWN) {}
 
         Trit(state, short);
 
-        unsigned get_number();
+        int get_number();
 
         state getState();
 
         Trit& operator+(Trit&);
         Trit& operator- (Trit&);
 
-        bool is_overflow();
+        state getOverflow();
+
+        void setOverflow(state);
 };
 
 // Tryte - троичный байт, состоящий из 6 тритов
@@ -66,6 +68,8 @@ class Tryte
         Trit& operator[] (int);
 
         int findNearestPower(int);
+
+        int convertNumber();
 };
 
 

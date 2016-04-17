@@ -9,13 +9,13 @@ Trint &Trint::operator+(Trint &t)
     {
         if (i < size - 1)
         {
-            if (sequence[i + 1].is_overflow())
-            {
-                Trit temp_obj(POS, 0);
-                sequence[i] = sequence[i] + t[i] + temp_obj;
-            }
-            else
-                sequence[i] = sequence[i] + t[i];
+            state tempOverflow = sequence[i + 1].getOverflow();
+            Trit tempTrit(tempOverflow, 0);
+            sequence[i] = sequence[i] + t[i];
+            state currOverflow = sequence[i].getOverflow();
+            sequence[i] = sequence[i] + tempTrit;
+            if (tempOverflow + currOverflow == UNKNOWN)
+                sequence[i].setOverflow(UNKNOWN);
         }
         else
             sequence[i] = sequence[i] + t[i];
@@ -30,13 +30,13 @@ Trint &Trint::operator-(Trint & t)
     {
         if (i < size - 1)
         {
-            if (sequence[i + 1].is_overflow())
-            {
-                Trit temp_obj(POS, 0);
-                sequence[i] = sequence[i] - t[i] - temp_obj;
-            }
-            else
-                sequence[i] = sequence[i] - t[i];
+            state tempOverflow = sequence[i + 1].getOverflow();
+            Trit tempTrit(tempOverflow, 0);
+            sequence[i] = sequence[i] - t[i];
+            state currOverflow = sequence[i].getOverflow();
+            sequence[i] = sequence[i] + tempTrit;
+            if (tempOverflow + currOverflow == UNKNOWN)
+                sequence[i].setOverflow(UNKNOWN);
         }
         else
             sequence[i] = sequence[i] - t[i];
@@ -44,7 +44,6 @@ Trint &Trint::operator-(Trint & t)
 
     return *this;
 }
-
 
 Troolean::Troolean(int val)
 {
