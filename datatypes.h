@@ -24,6 +24,9 @@ class Trint : public Tryte
 
         Trint& operator+(Trint&);
         Trint& operator- (Trint&);
+
+        Trint operator *(Trint&);
+        Trint operator /(Trint&);
 };
 
 #endif // DATATYPES

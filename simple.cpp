@@ -6,7 +6,7 @@ int Trit::base = 3;
 Trit::Trit(state new_state, short new_pos) : onOverflow(UNKNOWN)
 {
     if (new_pos < 0)
-        throw outOfRange();
+        throw SimpleException();
     pos = new_pos;
     st = new_state;
 }
@@ -85,7 +85,7 @@ void Tryte::display()
 Tryte::Tryte(int number) : Tryte()             // перевод числа в троичку
 {
     if (number < -364 || number > 364)
-        throw outOfRange("Tryte must be between -364 and 364");
+        throw SimpleException("Tryte must be between -364 and 364");
     if (number == 0)
         return;
 
@@ -152,6 +152,6 @@ int Tryte::convertNumber()
 Trit& Tryte::operator[](int index)
 {
     if (index < 0 || index >= size)
-        throw outOfRange();
+        throw SimpleException();
     return sequence[index];
 }

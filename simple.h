@@ -7,11 +7,11 @@
 #include <QVector>
 
 // простейший класс исключений
-struct outOfRange
+struct SimpleException
 {
     std::string description;
-    outOfRange() {description = "Ошибка выход за пределы диапазона";}
-    outOfRange(const std::string st) : outOfRange()
+    SimpleException() {description = "Ошибка выход за пределы диапазона";}
+    SimpleException(const std::string st) : SimpleException()
     {
         if (!st.empty())
             description = st;
