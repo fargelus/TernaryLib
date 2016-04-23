@@ -51,17 +51,32 @@ class Trit
         void setOverflow(state);
 };
 
+// последовательность тритов
+class Sequence
+{
+    private:
+        QVector<Trit> seq;
+
+    public:
+        void display();
+
+        Trit& get(int);
+        void set(Trit, int);
+
+        void fill(Trit);
+        void setSize(int newsz);
+};
+
+
 // Tryte - троичный байт, состоящий из 6 тритов
 class Tryte
 {
     protected:
-        QVector<Trit> sequence;
+        Sequence memory;
         static const int size = 6;
 
     public:
         Tryte();
-
-        void display();
 
         Tryte(int);
 
@@ -70,6 +85,14 @@ class Tryte
         int findNearestPower(int);
 
         int convertNumber();
+
+        void display();
+
+        Tryte& operator+(Tryte&);
+        Tryte& operator- (Tryte&);
+
+        Tryte operator *(Tryte&);
+        Tryte operator /(Tryte&);
 };
 
 

@@ -4,7 +4,7 @@
 #include "simple.h"
 
 // Troolean - троичный boolean
-class Troolean : public Tryte
+class Troolean : private Tryte
 {
     public:
         Troolean() : Tryte() {}
@@ -13,20 +13,17 @@ class Troolean : public Tryte
         friend std::ostream& operator<<(std::ostream&, Troolean&);
         Troolean operator&&(Troolean&);
         Troolean operator || (Troolean&);
+        void display();
 };
 
 // Trint - троичное целое число(беззнаковое) в диапазоне от 0 до 728
 class Trint : public Tryte
 {
+    private:
+        static const int size = 18;
+
     public:
-        Trint() : Tryte() {}
-        Trint(int n) : Tryte(n) {}
-
-        Trint& operator+(Trint&);
-        Trint& operator- (Trint&);
-
-        Trint operator *(Trint&);
-        Trint operator /(Trint&);
+        Trint();
 };
 
 #endif // DATATYPES
