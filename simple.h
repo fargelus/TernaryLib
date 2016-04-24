@@ -51,20 +51,34 @@ class Trit
         void setOverflow(state);
 };
 
+// находит ближайшую степень тройки
+int findNearestNumber(int);
+
 // последовательность тритов
 class Sequence
 {
-    private:
+    protected:
         QVector<Trit> seq;
 
     public:
+        Sequence();
+        Sequence(int);
+
         void display();
 
-        Trit& get(int);
-        void set(Trit, int);
-
         void fill(Trit);
-        void setSize(int newsz);
+
+        int convertNumber();
+
+        Sequence& operator+(Sequence&);
+        Sequence& operator- (Sequence&);
+
+        Sequence operator *(Sequence&);
+        Sequence operator /(Sequence&);
+
+        Trit& operator[] (int);
+
+        friend void ternaryNumber(Sequence&, int);
 };
 
 
@@ -72,20 +86,15 @@ class Sequence
 class Tryte
 {
     protected:
-        Sequence memory;
         static const int size = 6;
+        Sequence memory;
 
     public:
-        Tryte();
-
+        Tryte() : memory(size){}
         Tryte(int);
+        Tryte(Sequence);
 
-        Trit& operator[] (int);
-
-        int findNearestPower(int);
-
-        int convertNumber();
-
+        Sequence getSeq();
         void display();
 
         Tryte& operator+(Tryte&);

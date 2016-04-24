@@ -64,48 +64,39 @@ state Trit::getOverflow() { return onOverflow;}
 
 void Trit::setOverflow(state newSt) { onOverflow = newSt; }
 
-
-void Sequence::display()
+// находит ближайшую степень тройки
+int findNearestPower(int number)
 {
-        // цикл по коллекции - c++11
-        for (Trit& tr: seq)
-            std::cout << tr.getState();
-        std::cout << std::endl;
+    int n = 0, tempVal, over, prevSum = 0;
+    while (true)
+    {
+        tempVal = pow(3, n);
+        if (tempVal > abs(number))
+        {
+            over = abs(number) - pow(3, n - 1);
+            int counter = n - 2;
+            while (counter >= 0)
+            {
+                prevSum += pow(3, counter);
+                counter--;
+            }
+            if (over <= prevSum)
+                n--;
+            break;
+        }
+        n++;
+    }
+
+    return n;
 }
 
-Trit& Sequence::get(int pos)
+// перевод числа в троичку
+void ternaryNumber(Sequence& s, int number)
 {
-    if (pos < 0 || pos >= seq.size())
-        throw SimpleException();
-    return seq[pos];
-}
-
-void Sequence::set(Trit tr, int pos)
-{
-    if (pos < 0 || pos >= seq.size())
-        throw SimpleException();
-    seq[pos] = tr;
-}
-
-void Sequence::fill(Trit newTr) { seq.fill(newTr); }
-
-void Sequence::setSize(int newsz)
-{
-    bool isOk;
-    newsz > 0 ? isOk = true : isOk = false;
-    if (!isOk)
-        throw SimpleException("Bad size");
-    for (int i = 0; i < newsz; ++i)
-        seq.push_back(Trit(UNKNOWN, i));
-}
-
-
-Tryte::Tryte() { memory.setSize(size);}
-
-Tryte::Tryte(int number) : Tryte()             // перевод числа в троичку
-{
-    if (number > 364 || number < -364)
-        throw SimpleException("Tryte takes number in range -364 and 364");
+    int size = s.seq.size();
+    double rangeUp = floor(pow(3, s.seq.size()) / 2);
+    if (number > rangeUp || number < -rangeUp)
+        throw SimpleException("range error");
     if (number == 0)
         return;
 
@@ -118,9 +109,9 @@ Tryte::Tryte(int number) : Tryte()             // перевод числа в �
         degree = findNearestPower(number);
 
         if (isT)
-            memory.set(Trit(NEG, degree), size - degree - 1);
+            s.seq[size - degree - 1] = Trit(NEG, degree);
         else
-            memory.set(Trit(POS, degree), size - degree - 1);
+            s.seq[size - degree - 1] = Trit(POS, degree);
 
         tempVal = pow(3, degree);
         if (abs(number) >= abs(tempVal))
@@ -134,57 +125,47 @@ Tryte::Tryte(int number) : Tryte()             // перевод числа в �
     while (number != 0);
 }
 
-// находит ближайшую степень тройки
-int Tryte::findNearestPower(int number)
-{
-      int n = 0, tempVal, over, prevSum = 0;
-      while (true)
-      {
-          tempVal = pow(3, n);
-          if (tempVal > abs(number))
-          {
-              over = abs(number) - pow(3, n - 1);
-              int counter = n - 2;
-              while (counter >= 0)
-              {
-                  prevSum += pow(3, counter);
-                  counter--;
-              }
-              if (over <= prevSum)
-                  n--;
-              break;
-          }
-          n++;
-      }
+Sequence::Sequence()
+{}
 
-      return n;
+Sequence::Sequence(int size)
+{
+    bool isOk = size > 0 ? true: false;
+    if (!isOk)
+        throw SimpleException("Bad size");
+    for (int i = 0; i < size; ++i)
+        seq.push_back(Trit(UNKNOWN, i));
 }
 
-int Tryte::convertNumber()
+void Sequence::display()
+{
+        // цикл по коллекции - c++11
+        for (Trit& tr: seq)
+            std::cout << tr.getState();
+        std::cout << std::endl;
+}
+
+void Sequence::fill(Trit newTr) { seq.fill(newTr); }
+
+// преобразует число
+int Sequence::convertNumber()
 {
     int sum = 0;
+    int size = seq.size();
     for (int i = size - 1; i >= 0; --i)
-        sum += memory.get(i).get_number();
+        sum += seq[i].get_number();
     return sum;
 }
 
-void Tryte::display() { memory.display();}
-
-Trit& Tryte::operator[](int index)
+Sequence &Sequence::operator+(Sequence & t)
 {
-    if (index < 0 || index >= size)
-        throw SimpleException();
-    return memory.get(index);
-}
-
-Tryte& Tryte::operator+(Tryte &t)
-{
+    int size = seq.size();
     for (int i = size - 1; i >= 0; --i)
     {
-        memory.get(i) + t[i];       // изменение сост-я трита
+        seq[i] + t[i];       // изменение сост-я трита
         if (i < size - 1)
         {
-            state tempOverflow = memory.get(i+1).getOverflow();
+            state tempOverflow = seq[i+1].getOverflow();
             // если предыдущее переполнение не равно нулю
             // происходит слож-е
             if (tempOverflow != UNKNOWN)
@@ -192,14 +173,14 @@ Tryte& Tryte::operator+(Tryte &t)
                 Trit tempTrit(tempOverflow, 0);
 
                 // запоминаем текущее переполнение
-                state currOverflow = memory.get(i).getOverflow();
+                state currOverflow = seq[i].getOverflow();
 
-                memory.get(i) + tempTrit;         // новое сост-е трита + новое переполнение
-                state newOverflow = memory.get(i).getOverflow();
+                seq[i] + tempTrit;         // новое сост-е трита + новое переполнение
+                state newOverflow = seq[i].getOverflow();
                 if (newOverflow + currOverflow == UNKNOWN)
                 {
                     currOverflow = UNKNOWN;
-                    memory.get(i).setOverflow(currOverflow);
+                    seq[i].setOverflow(currOverflow);
                 }
             }
             // иначе оставляем всё как есть
@@ -209,14 +190,15 @@ Tryte& Tryte::operator+(Tryte &t)
     return *this;
 }
 
-Tryte &Tryte::operator-(Tryte & t)
+Sequence &Sequence::operator-(Sequence & t)
 {
+    int size = seq.size();
     for (int i = size - 1; i >= 0; --i)
     {
-        memory.get(i) - t[i];       // изменение сост-я трита
+        seq[i] - t[i];       // изменение сост-я трита
         if (i < size - 1)
         {
-            state tempOverflow = memory.get(i+1).getOverflow();
+            state tempOverflow = seq[i+1].getOverflow();
             // если предыдущее переполнение не равно нулю
             // происходит вычит-е
             if (tempOverflow != UNKNOWN)
@@ -224,14 +206,14 @@ Tryte &Tryte::operator-(Tryte & t)
                 Trit tempTrit(tempOverflow, 0);
 
                 // запоминаем текущее переполнение
-                state currOverflow = memory.get(i).getOverflow();
+                state currOverflow = seq[i].getOverflow();
 
-                memory.get(i) + tempTrit;         // новое сост-е трита + новое переполнение
-                state newOverflow = memory.get(i).getOverflow();
+                seq[i] + tempTrit;         // новое сост-е трита + новое переполнение
+                state newOverflow = seq[i].getOverflow();
                 if (newOverflow + currOverflow == UNKNOWN)
                 {
                     currOverflow = UNKNOWN;
-                    memory.get(i).setOverflow(currOverflow);
+                    seq[i].setOverflow(currOverflow);
                 }
             }
             // иначе оставляем всё как есть
@@ -241,40 +223,39 @@ Tryte &Tryte::operator-(Tryte & t)
     return *this;
 }
 
-Tryte Tryte::operator *(Tryte & t)
+Sequence Sequence::operator *(Sequence& t)
 {
     int num = t.convertNumber();
-    Tryte sum;
-    if (num > 0)
-        for (int i = 0; i < num; ++i)
-        {
-//            this->display();
-//            sum.display();
-            sum = sum + *this;
-//            std::cout << std::endl;
-        }
-    else
+    Sequence sum(this->seq.size());
+    if (num < 0)
     {
         num = abs(num);
         int thisNumb = this->convertNumber();
-        Tryte negTrint(-thisNumb);
-        for (int i = 0; i < num; ++i)
-            sum = sum + negTrint;
+        ternaryNumber(*this, -thisNumb);
+    }
+
+    for (int i = 0; i < num; ++i)
+    {
+//            this->display();
+//            sum.display();
+        sum = sum + *this;
+//            std::cout << std::endl;
     }
 
     return sum;
 }
 
 // целочисленное деление
-Tryte Tryte::operator /(Tryte & t)
+Sequence Sequence::operator /(Sequence& t)
 {
+    Sequence returnVal(this->seq.size());
     int thisNumb = this->convertNumber();
     int rightNumb = t.convertNumber();
     if (rightNumb == 0)
         throw SimpleException("Division by zero!!!");
     if (thisNumb < rightNumb &&
             thisNumb > 0 && rightNumb > 0)
-        return Tryte();
+        return returnVal;
 
     int count = 0;
     bool isMinus = false;
@@ -291,6 +272,60 @@ Tryte Tryte::operator /(Tryte & t)
     } while (thisNumb >= rightNumb);
 
     if (isMinus)
-        return Tryte(-count);
-    return Tryte(count);
+        ternaryNumber(returnVal, -count);
+    else
+        ternaryNumber(returnVal, count);
+    return returnVal;
 }
+
+Trit &Sequence::operator[](int index)
+{
+    int size = seq.size();
+    if (index < 0 || index >= size)
+        throw SimpleException();
+    return seq[index];
+}
+
+
+
+Tryte::Tryte(int number) : memory(size)
+{
+    ternaryNumber(memory, number);
+}
+
+Tryte::Tryte(Sequence rightMem) { memory = rightMem;}
+
+Sequence Tryte::getSeq() { return memory;}
+
+void Tryte::display() { memory.display();}
+
+Tryte &Tryte::operator+(Tryte & tr)
+{
+    Sequence tempSeq = tr.getSeq();
+    memory + tempSeq;
+    return *this;
+}
+
+Tryte &Tryte::operator-(Tryte & tr)
+{
+    Sequence tempSeq = tr.getSeq();
+    memory - tempSeq;
+    return *this;
+}
+
+Tryte Tryte::operator *(Tryte & tr)
+{
+    Sequence tempSeq = tr.getSeq();
+    Sequence result;
+    result = memory * tempSeq;
+    return result;
+}
+
+Tryte Tryte::operator /(Tryte & tr)
+{
+    Sequence tempSeq = tr.getSeq();
+    Sequence result;
+    result = memory / tempSeq;
+    return result;
+}
+
