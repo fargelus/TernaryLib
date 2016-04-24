@@ -1,4 +1,4 @@
-#include "simple.h"
+#include "datatypes.h"
 #include <iostream>
 
 using std::cout;
@@ -8,9 +8,9 @@ int main()
 {
     try
     {
-        Tryte t(-6);
-        Tryte t1 = 0;
-        t = t / t1;
+        Trint t(100);
+        Trint t1 = 10;
+        t = t + t1;
         t.display();
     }
     catch (SimpleException& e)
