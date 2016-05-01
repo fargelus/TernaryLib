@@ -5,13 +5,13 @@ int Trit::base = 3;
 
 Trit::Trit(state new_state, short new_pos) : onOverflow(UNKNOWN)
 {
-    if (new_pos < 0)
-        throw SimpleException();
+    // if (new_pos < 0)
+        // throw SimpleException();
     pos = new_pos;
     st = new_state;
 }
 
-int Trit::get_number()
+float Trit::get_number()
 {
     return static_cast<int>(st) * pow(base, pos);
 }
@@ -21,7 +21,7 @@ state Trit::getState() { return st; }
 Trit& Trit::operator+(Trit &t)
 {
     int sum = static_cast<int> (st) + static_cast<int> (t.getState());
-    onOverflow = UNKNOWN;
+    // onOverflow = UNKNOWN;
     if (sum == 2 || sum == -2)
     {
         if (sum == 2)
@@ -133,7 +133,7 @@ Sequence::Sequence(int size)
     bool isOk = size > 0 ? true: false;
     if (!isOk)
         throw SimpleException("Bad size");
-    for (int i = 0; i < size; ++i)
+    for (int i = size - 1; i >= 0; --i)
         seq.push_back(Trit(UNKNOWN, i));
 }
 
@@ -142,7 +142,7 @@ void Sequence::display()
         // цикл по коллекции - c++11
         for (Trit& tr: seq)
             std::cout << tr.getState();
-        std::cout << std::endl;
+//        std::cout << std::endl;
 }
 
 void Sequence::fill(Trit newTr) { seq.fill(newTr); }

@@ -36,6 +36,10 @@ class Trint
         Trint operator *(Trint&);
         Trint operator /(Trint&);
 
+        Trit& operator[](int index);
+
+        static int getSize() { return size; }
+
         void display();
 };
 

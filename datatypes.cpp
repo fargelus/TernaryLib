@@ -170,6 +170,8 @@ Trint Trint::operator /(Trint & rightOp)
     return result;
 }
 
+Trit &Trint::operator[](int index) { return memory[index];}
+
 void Trint::display()
 {
     memory.display();

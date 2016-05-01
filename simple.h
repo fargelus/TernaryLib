@@ -39,9 +39,10 @@ class Trit
 
         Trit(state, short);
 
-        int get_number();
+        float get_number();
 
         state getState();
+        short getPos() { return pos; }
 
         Trit& operator+(Trit&);
         Trit& operator- (Trit&);
@@ -65,6 +66,8 @@ class Sequence
         Sequence(int);
 
         void display();
+
+        int getSize() {return seq.size();}
 
         void fill(Trit);
 

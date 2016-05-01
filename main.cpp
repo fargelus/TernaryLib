@@ -1,17 +1,18 @@
-#include "datatypes.h"
+#include "trible.h"
 #include <iostream>
 
 using std::cout;
 using std::endl;
 
+
 int main()
 {
     try
     {
-        Trint t(100);
-        Trint t1 = 10;
+        Trible t(1.45);
+        Trible t1(1.3);
+
         t = t + t1;
-        t.display();
     }
     catch (SimpleException& e)
     {

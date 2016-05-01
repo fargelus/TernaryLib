@@ -19,8 +19,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     simple.cpp \
-    datatypes.cpp
+    datatypes.cpp \
+    trible.cpp \
+    unittest.cpp
 
 HEADERS += \
     simple.h \
-    datatypes.h
+    datatypes.h \
+    trible.h \
+    unittest.h
