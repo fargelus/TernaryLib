@@ -62,7 +62,8 @@ Trit &Trit::operator-(Trit & t)
 
 state Trit::getOverflow() { return onOverflow;}
 
-void Trit::setOverflow(state newSt) { onOverflow = newSt; }
+void Trit::setOverflow(state over) { onOverflow = over; }
+
 
 // находит ближайшую степень тройки
 int findNearestPower(int number)
@@ -157,6 +158,13 @@ int Sequence::convertNumber()
     return sum;
 }
 
+void Sequence::setOverToNull()
+{
+    for(Trit& tr:seq)
+        tr.setOverflow(UNKNOWN);
+}
+
+
 Sequence &Sequence::operator+(Sequence & t)
 {
     int size = seq.size();
@@ -236,11 +244,14 @@ Sequence Sequence::operator *(Sequence& t)
 
     for (int i = 0; i < num; ++i)
     {
-//            this->display();
-//            sum.display();
-        sum = sum + *this;
+//            std::cout << sum.convertNumber() << std::endl;
+//            std::cout << this->convertNumber() << std::endl;
 //            std::cout << std::endl;
+            sum + *this;
+//            std::cout << std::endl;
+            sum.setOverToNull();
     }
+//    std::cout << sum.convertNumber() << std::endl;
 
     return sum;
 }

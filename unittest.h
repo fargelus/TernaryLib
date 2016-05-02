@@ -5,7 +5,9 @@
 
 struct Tribletest
 {
-   void generalTest(Trible&, Trible&);
+   void minusTest(Trible&, Trible&);
+   void multiplyTest(Trible&, Trible&);
+   void divisionTest(Trible&, Trible&);
 };
 
 #endif // UNITTEST

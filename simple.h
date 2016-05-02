@@ -72,6 +72,7 @@ class Sequence
         void fill(Trit);
 
         int convertNumber();
+        void setOverToNull();
 
         Sequence& operator+(Sequence&);
         Sequence& operator- (Sequence&);

@@ -22,8 +22,11 @@ class Trible
         Sequence getBase();
         Sequence getMant();
 
-        Trible& operator+ (Trible&);
-        Trible& operator- (Trible&);
+        Sequence changeOrder(Trible&);
+
+        Trible& operator+(Trible&);
+        Trible& operator-(Trible&);
+        Trible& operator*(Trible&);
 };
 
 
