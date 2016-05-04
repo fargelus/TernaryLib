@@ -28,7 +28,7 @@ class Trint
         Trint(int);
         Trint(Sequence);
 
-        Sequence getSeq();
+        Sequence getSeq() const;
 
         Trint& operator+(Trint&);
         Trint& operator- (Trint&);

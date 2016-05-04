@@ -32,9 +32,9 @@ void Trible::display()
     mantissa.display();
 }
 
-Sequence Trible::getBase() { return base; }
+Sequence Trible::getBase() const { return base; }
 
-Sequence Trible::getMant() { return mantissa; }
+Sequence Trible::getMant() const { return mantissa; }
 
 // меняет порядок мантиссу меньшего числа
 Sequence Trible::changeOrder(Trible & rightOp)
@@ -62,7 +62,6 @@ Sequence Trible::changeOrder(Trible & rightOp)
        ternaryNumber(base, minBase);
     }
 
-
     return tempMant;
 }
 
@@ -85,16 +84,20 @@ Trible &Trible::operator-(Trible & rightOp)
 Trible& Trible::operator*(Trible & rightOp)
 {
     Sequence tempMant = rightOp.getMant();
-    int newBase;
+    int newBase = 0;
+
+    // если число не целое
     if (base.convertNumber() != 0
             && rightOp.getBase().convertNumber() != 0)
     {
         tempMant = changeOrder(rightOp);
-
+        qDebug() << mantissa.convertNumber();
         // при обычном ум-ии степени складываются
         newBase = base.convertNumber() + rightOp.getBase().convertNumber();
     }
     else
+        if (mantissa.convertNumber() != 0
+            && rightOp.getBase().convertNumber() != 0)
         newBase = base.convertNumber() < rightOp.getBase().convertNumber()
                 ? base.convertNumber() : rightOp.getBase().convertNumber();
 
@@ -103,6 +106,24 @@ Trible& Trible::operator*(Trible & rightOp)
 
     Sequence retVal = mantissa * tempMant;
     mantissa = retVal;
+
+    return *this;
+}
+
+Trible &Trible::operator/(Trible right)
+{
+    float number = right.getMant().convertNumber();
+    if (number == 0)
+        throw SimpleException("Division by zero");
+
+    float exp = pow(10, right.getBase().convertNumber());
+    number *= exp;
+
+    float divisor = 1 / number;
+
+    QString sNumber = QString::number(divisor, 'f', 3);
+    right = Trible(sNumber.toFloat());
+    (*this) * right;
 
     return *this;
 }

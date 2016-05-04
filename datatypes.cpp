@@ -138,7 +138,7 @@ Trint::Trint(int num) : memory(size)
 
 Trint::Trint(Sequence rightMem) {memory = rightMem;}
 
-Sequence Trint::getSeq() { return memory; }
+Sequence Trint::getSeq() const { return memory; }
 
 Trint &Trint::operator+(Trint & rightOp)
 {

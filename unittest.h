@@ -2,12 +2,20 @@
 #define UNITTEST
 
 #include "trible.h"
+#include "functools.h"
 
 struct Tribletest
 {
-   void minusTest(Trible&, Trible&);
-   void multiplyTest(Trible&, Trible&);
-   void divisionTest(Trible&, Trible&);
+   void minusTest();
+   void multiplyTest();
+   void divisionTest();
+};
+
+
+struct FuncTest
+{
+    void powerTest();
+    void squareRootTest();
 };
 
 #endif // UNITTEST

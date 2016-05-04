@@ -21,10 +21,12 @@ SOURCES += main.cpp \
     simple.cpp \
     datatypes.cpp \
     trible.cpp \
-    unittest.cpp
+    unittest.cpp \
+    functools.cpp
 
 HEADERS += \
     simple.h \
     datatypes.h \
     trible.h \
-    unittest.h
+    unittest.h \
+    functools.h

@@ -19,14 +19,15 @@ class Trible
         Trible(float);
         void display();
 
-        Sequence getBase();
-        Sequence getMant();
+        Sequence getBase() const;
+        Sequence getMant() const;
 
         Sequence changeOrder(Trible&);
 
-        Trible& operator+(Trible&);
-        Trible& operator-(Trible&);
-        Trible& operator*(Trible&);
+        Trible& operator+ (Trible&);
+        Trible& operator- (Trible&);
+        Trible& operator* (Trible&);
+        Trible& operator/ (Trible);
 };
 
 
