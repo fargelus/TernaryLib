@@ -145,34 +145,34 @@ void Tribletest::divisionTest()
     Trible right = 9.0;
 
     // 1 -- обычное дел-е
-//    left / right;
-//    cout << left.getMant().convertNumber() << endl;
-//    left.display();
-//    cout << endl;
+    left / right;
+    cout << left.getMant().convertNumber() << endl;
+    left.display();
+    cout << endl;
 
     // 2 -- целое на целое
-//    left = Trible(76.0);
-//    right = Trible(12.0);
-//    left / right;
-//    cout << left.getMant().convertNumber() << endl;
-//    left.display();
-//    cout << endl;
+    left = Trible(76.0);
+    right = Trible(12.0);
+    left / right;
+    cout << left.getMant().convertNumber() << endl;
+    left.display();
+    cout << endl;
 
     // 3 -- дробное на целое
-//    left = Trible(76.23);
-//    right = Trible(12.0);
-//    right / left;
-//    cout << right.getMant().convertNumber() << endl;
-//    right.display();
-//    cout << endl;
+    left = Trible(76.23);
+    right = Trible(12.0);
+    right / left;
+    cout << right.getMant().convertNumber() << endl;
+    right.display();
+    cout << endl;
 
     // 4 -- целое на дробное
-//    left = Trible(27.0);
-//    right = Trible(9.12);
-//    left / right;
-//    cout << left.getMant().convertNumber() << endl;
-//    left.display();
-//    cout << endl;
+    left = Trible(27.0);
+    right = Trible(9.12);
+    left / right;
+    cout << left.getMant().convertNumber() << endl;
+    left.display();
+    cout << endl;
 
     // 5 -- дробное на дробное (<1) тест не пройден
     right  = Trible(3.9);
@@ -183,28 +183,28 @@ void Tribletest::divisionTest()
     cout << endl;
 
     // 6 -- дробное на дробное(>1) right < 1 тест не пройден
-//    left = Trible(27.1);
-//    right = Trible(0.32);
-//    left / right;
-//    cout << left.getMant().convertNumber() << endl;
-//    left.display();
-//    cout << endl;
+    left = Trible(27.1);
+    right = Trible(0.32);
+    left / right;
+    cout << left.getMant().convertNumber() << endl;
+    left.display();
+    cout << endl;
 
     // 7 -- ноль на дробное
-//    left = Trible(0.0);
-//    right = Trible(3.2);
-//    left / right;
-//    cout << left.getMant().convertNumber() << endl;
-//    left.display();
-//    cout << endl;
+    left = Trible(0.0);
+    right = Trible(3.2);
+    left / right;
+    cout << left.getMant().convertNumber() << endl;
+    left.display();
+    cout << endl;
 
     // 8 -- деление на ноль
-//    left = Trible(3.2);
-//    right = Trible(0.0);
-//    cout << left.getMant().convertNumber() << "/" << right.getMant().convertNumber();
-//    left / right;
-//    cout << " = " << left.getMant().convertNumber() << endl;
-//    cout << endl;
+    left = Trible(3.2);
+    right = Trible(0.0);
+    cout << left.getMant().convertNumber() << "/" << right.getMant().convertNumber();
+    left / right;
+    cout << " = " << left.getMant().convertNumber() << endl;
+    cout << endl;
 }
 
 
