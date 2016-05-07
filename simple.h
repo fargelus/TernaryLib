@@ -70,6 +70,7 @@ class Sequence
         int getSize() {return seq.size();}
 
         void fill(Trit);
+        void makeEmpty();
 
         int convertNumber();
         void setOverToNull();

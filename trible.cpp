@@ -91,9 +91,17 @@ Trible& Trible::operator*(Trible & rightOp)
             && rightOp.getBase().convertNumber() != 0)
     {
         tempMant = changeOrder(rightOp);
-        qDebug() << mantissa.convertNumber();
         // при обычном ум-ии степени складываются
         newBase = base.convertNumber() + rightOp.getBase().convertNumber();
+
+        // небольшая оптимизация, умножаются только значащие цифры
+        int number = mantissa.convertNumber();
+        while (number % 10 == 0)
+        {
+            number /= 10;
+            newBase++;
+        }
+        ternaryNumber(mantissa, number);
     }
     else
         if (mantissa.convertNumber() != 0
@@ -104,6 +112,8 @@ Trible& Trible::operator*(Trible & rightOp)
     // устанавливаем новую степень
     ternaryNumber(base, newBase);
 
+//    qDebug() << mantissa.convertNumber();
+//    qDebug() << rightOp.getMant().convertNumber();
     Sequence retVal = mantissa * tempMant;
     mantissa = retVal;
 
@@ -122,7 +132,7 @@ Trible &Trible::operator/(Trible right)
     float divisor = 1 / number;
 
     QString sNumber = QString::number(divisor, 'f', 3);
-    right = Trible(sNumber.toFloat());
+    right = Trible(sNumber.toFloat());    
     (*this) * right;
 
     return *this;

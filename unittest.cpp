@@ -175,20 +175,20 @@ void Tribletest::divisionTest()
 //    cout << endl;
 
     // 5 -- дробное на дробное (<1) тест не пройден
-//    right  = Trible(3.9);
-//    left = Trible(27.2);
-//    left / right;
-//    cout << left.getMant().convertNumber() << endl;
-//    left.display();
-//    cout << endl;
-
-    // 6 -- дробное на дробное(>1) right < 1 тест не пройден
-    left = Trible(27.1);
-    right = Trible(0.32);
+    right  = Trible(3.9);
+    left = Trible(27.2);
     left / right;
     cout << left.getMant().convertNumber() << endl;
     left.display();
     cout << endl;
+
+    // 6 -- дробное на дробное(>1) right < 1 тест не пройден
+//    left = Trible(27.1);
+//    right = Trible(0.32);
+//    left / right;
+//    cout << left.getMant().convertNumber() << endl;
+//    left.display();
+//    cout << endl;
 
     // 7 -- ноль на дробное
 //    left = Trible(0.0);

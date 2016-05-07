@@ -94,6 +94,7 @@ int findNearestPower(int number)
 // перевод числа в троичку
 void ternaryNumber(Sequence& s, int number)
 {
+    s.makeEmpty();
     int size = s.seq.size();
     double rangeUp = floor(pow(3, s.seq.size()) / 2);
     if (number > rangeUp || number < -rangeUp)
@@ -147,6 +148,14 @@ void Sequence::display()
 }
 
 void Sequence::fill(Trit newTr) { seq.fill(newTr); }
+
+void Sequence::makeEmpty()
+{
+    int size = seq.size();
+    int j = 0;
+    for (int i = size - 1; i >= 0; --i)
+        seq[i] = Trit(UNKNOWN, j++);
+}
 
 // преобразует число
 int Sequence::convertNumber()
