@@ -6,6 +6,7 @@
 
 struct Tribletest
 {
+   void mainTest();
    void minusTest();
    void multiplyTest();
    void divisionTest();

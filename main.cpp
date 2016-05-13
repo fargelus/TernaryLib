@@ -5,11 +5,10 @@
 using std::cout;
 using std::endl;
 
-
 int main()
 {
     Tribletest test;
-    test.divisionTest();
+    test.mainTest();
 
     return 0;
 }

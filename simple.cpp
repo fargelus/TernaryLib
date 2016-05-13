@@ -141,11 +141,18 @@ Sequence::Sequence(int size)
 
 void Sequence::display()
 {
+        bool flag = false;
         // цикл по коллекции - c++11
         for (Trit& tr: seq)
-            std::cout << tr.getState();
+        {
+            if (tr.getState() == POS)
+                flag = true;
+            if (flag)
+                std::cout << tr.getState();
+        }
 //        std::cout << std::endl;
 }
+
 
 void Sequence::fill(Trit newTr) { seq.fill(newTr); }
 

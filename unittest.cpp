@@ -3,6 +3,13 @@
 using std::cout;
 using std::endl;
 
+void Tribletest::mainTest()
+{
+    minusTest();
+    multiplyTest();
+    divisionTest();
+}
+
 void Tribletest::minusTest()
 {
     Trible left(27.0);
